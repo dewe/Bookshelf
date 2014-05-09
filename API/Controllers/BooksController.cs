@@ -1,16 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System.Dynamic;
+using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 using API.Models;
+using API.Services;
+using Newtonsoft.Json.Linq;
 
 namespace API.Controllers
 {
     public class BooksController : ApiController
     {
         // GET books
-        public IEnumerable<Book> Get()
+        public BooksDto Get()
         {
-            var bookstore = BookStore.Current;
-            return bookstore.Books();
+            return new BooksDto
+            {
+                Books = BookStore.Current.Books()
+            };
         }
 
         // GET books/{id}

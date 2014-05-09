@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using API.Controllers;
+using API.Services;
 using NUnit.Framework;
 using Shouldly;
 
@@ -14,7 +15,9 @@ namespace API.Tests
             BookStore.Current = new BookStore();
             var booksController = new BooksController();
 
-            booksController.Get().Count().ShouldBe(5);
+            var books = booksController.Get().Books;
+
+            books.Count().ShouldBe(5);
         }
     }
 }
