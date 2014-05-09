@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+﻿using System.Collections.Generic;
 using System.Web.Http;
+using API.Models;
 
 namespace API.Controllers
 {
     public class BooksController : ApiController
     {
         // GET books
-        public IEnumerable<string> Get()
+        public IEnumerable<Book> Get()
         {
-            return new string[] { "value1", "value2" };
+            var bookstore = BookStore.Current;
+            return bookstore.Books();
         }
 
-        // GET books/5
+        // GET books/{id}
         public string Get(int id)
         {
             return "value";
@@ -26,7 +24,7 @@ namespace API.Controllers
         {
         }
 
-        // PUT books/5
+        // PUT books/{id}
         public void Put(int id, [FromBody]string value)
         {
         }
