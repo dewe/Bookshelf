@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http.Formatting;
 using System.Web.Http;
 using API.Controllers;
+using API.Models;
 using API.Services;
 using Newtonsoft.Json.Serialization;
 
@@ -12,7 +14,7 @@ namespace API
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
-            BookStore.Current = new BookStore();
+            FakeBookStore.SetAll(FakeBookStore.SampleBooks());
 
             // JSON configuration
             var jsonFormatter = new JsonMediaTypeFormatter();

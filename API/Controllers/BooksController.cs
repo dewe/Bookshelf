@@ -1,4 +1,5 @@
 ﻿using System.Dynamic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -15,14 +16,14 @@ namespace API.Controllers
         {
             return new BooksDto
             {
-                Books = BookStore.Current.Books()
+                Books = FakeBookStore.Books()
             };
         }
 
-        // GET books/{id}
-        public string Get(int id)
+        // GET books/{isbn}
+        public Book Get(string isbn)
         {
-            return "value";
+            return FakeBookStore.Books().FirstOrDefault(b => b.Isbn == isbn);
         }
 
         // POST books
