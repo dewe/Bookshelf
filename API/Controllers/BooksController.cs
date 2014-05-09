@@ -11,7 +11,7 @@ namespace API.Controllers
 {
     public class BooksController : ApiController
     {
-        // GET books
+        [Route("books")]
         public BooksDto Get()
         {
             return new BooksDto
@@ -20,7 +20,7 @@ namespace API.Controllers
             };
         }
 
-        // GET books/{isbn}
+        [Route("books/{isbn}")]
         public Book Get(string isbn)
         {
             return FakeBookStore.Books().FirstOrDefault(b => b.Isbn == isbn);
