@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
+using System.Web.Http;
 using API.Controllers;
 using API.Models;
 using API.Services;
@@ -13,17 +16,6 @@ namespace API.Tests
     public class BooksControllerTests
     {
         private BooksController _booksController;
-
-        [SetUp]
-        public void SetUp()
-        {
-            var books = new List<Book>();
-            books.AddRange(Enumerable.Repeat(new Book(), 4));
-            books.Add(new Book { Isbn = "1234567890" });
-            FakeBookStore.SetAll(books);
-
-            _booksController = new BooksController();
-        }
 
         [Test]
         public void Get_books_returns_all_books()
@@ -41,5 +33,27 @@ namespace API.Tests
             book.Isbn.ShouldBe("1234567890");
         }
 
+        [Test]
+        public void Loan_free_book_assigns_borrower_to_book()
+        {
+            Book book;
+            var response = _booksController.PutLoan("1234567890", "testname");
+            response.TryGetContentValue(out book);
+
+            book.Loaned.ShouldBe("testname");
+        }
+
+        [SetUp]
+        public void SetUp()
+        {
+            var books = new List<Book>();
+            books.AddRange(Enumerable.Repeat(new Book(), 4));
+            books.Add(new Book { Isbn = "1234567890" });
+            FakeBookStore.SetAll(books);
+
+            _booksController = new BooksController();
+            _booksController.Request = new HttpRequestMessage();
+            _booksController.Request.SetConfiguration(new HttpConfiguration());
+        }
     }
 }

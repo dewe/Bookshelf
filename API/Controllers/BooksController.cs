@@ -28,9 +28,13 @@ namespace API.Controllers
         }
 
         [Route("books/{isbn}/loan")]
-        public HttpResponseMessage Put(int isbn, [FromBody]string value)
+        public HttpResponseMessage PutLoan(string isbn, [FromBody]string value)
         {
-            return Request.CreateResponse(HttpStatusCode.Created, value);
+            var book = FakeBookStore.Books().FirstOrDefault(b => b.Isbn == isbn);
+
+            book.Loaned = value;
+
+            return Request.CreateResponse(HttpStatusCode.Created, book);
         }
 
         // DELETE books/5
