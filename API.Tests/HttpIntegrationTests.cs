@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using API.Services;
 using NUnit.Framework;
 using Shouldly;
 
@@ -37,5 +39,18 @@ namespace API.Tests
 
             response.Content.Headers.ContentType.MediaType.ShouldBe("application/json");
         }
+
+        [Test]
+        public async void Get_single_book_returns_200()
+        {
+            var isbn = FakeBookStore.SampleBooks().First().Isbn;
+            string url = "http://in.memory.host/books/" + isbn;
+
+            var response = await _client.GetAsync(url);
+
+            response.StatusCode.ShouldBe(HttpStatusCode.OK);
+        }
+
+
     }
 }
