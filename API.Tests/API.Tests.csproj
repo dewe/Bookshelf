@@ -60,7 +60,9 @@
     <Compile Include="BooksControllerTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="HttpIntegrationTests.cs">
+    <Compile Include="InProcessHttpTests.cs" />
+    <Compile Include="LoanHttpTests.cs" />
+    <Compile Include="BooksHttpTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

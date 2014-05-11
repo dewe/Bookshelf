@@ -1,4 +1,5 @@
-﻿using System.Dynamic;
+﻿using System;
+using System.Dynamic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -26,14 +27,10 @@ namespace API.Controllers
             return FakeBookStore.Books().FirstOrDefault(b => b.Isbn == isbn);
         }
 
-        // POST books
-        public void Post([FromBody]string value)
+        [Route("books/{isbn}/loan")]
+        public HttpResponseMessage Put(int isbn, [FromBody]string value)
         {
-        }
-
-        // PUT books/{id}
-        public void Put(int id, [FromBody]string value)
-        {
+            return Request.CreateResponse(HttpStatusCode.Created, value);
         }
 
         // DELETE books/5
