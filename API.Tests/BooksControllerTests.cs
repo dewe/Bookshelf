@@ -49,7 +49,7 @@ namespace API.Tests
             var books = new List<Book>();
             books.AddRange(Enumerable.Repeat(new Book(), 4));
             books.Add(new Book { Isbn = "1234567890" });
-            FakeBookStore.SetAll(books);
+            SimpleStore<Book>.SetItems(books);
 
             _booksController = new BooksController();
             _booksController.Request = new HttpRequestMessage();

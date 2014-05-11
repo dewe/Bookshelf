@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using API.Models;
 using API.Services;
 using NUnit.Framework;
 using Shouldly;
@@ -31,12 +32,13 @@ namespace API.Tests
         [Test]
         public async void Get_single_book_returns_200_ok()
         {
-            var isbn = FakeBookStore.SampleBooks().First().Isbn;
+            var isbn = SampleData.Books().First().Isbn;
             var url = "/books/" + isbn;
 
             var response = await Client.GetAsync(url);
 
             response.StatusCode.ShouldBe(HttpStatusCode.OK);
         }
+
     }
 }

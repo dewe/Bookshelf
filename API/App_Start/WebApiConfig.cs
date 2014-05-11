@@ -14,7 +14,7 @@ namespace API
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
-            FakeBookStore.SetAll(FakeBookStore.SampleBooks());
+            SimpleStore<Book>.SetItems(SampleData.Books());
 
             // JSON configuration
             var jsonFormatter = new JsonMediaTypeFormatter();

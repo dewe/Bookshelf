@@ -1,12 +1,9 @@
-﻿using System;
-using System.Dynamic;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using API.Models;
 using API.Services;
-using Newtonsoft.Json.Linq;
 
 namespace API.Controllers
 {
@@ -17,20 +14,20 @@ namespace API.Controllers
         {
             return new BooksDto
             {
-                Books = FakeBookStore.Books()
+                Books = SimpleStore<Book>.Items()
             };
         }
 
         [Route("books/{isbn}")]
         public Book Get(string isbn)
         {
-            return FakeBookStore.Books().FirstOrDefault(b => b.Isbn == isbn);
+            return SimpleStore<Book>.Items().FirstOrDefault(b => b.Isbn == isbn);
         }
 
         [Route("books/{isbn}/loan")]
         public HttpResponseMessage PutLoan(string isbn, [FromBody]string value)
         {
-            var book = FakeBookStore.Books().FirstOrDefault(b => b.Isbn == isbn);
+            var book = SimpleStore<Book>.Items().FirstOrDefault(b => b.Isbn == isbn);
 
             book.Loaned = value;
 
