@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace API.Services
 {
-    public static class SimpleStore<T>
+    public static class Store<T>
     {
         private static IEnumerable<T> _items = new List<T>();
 

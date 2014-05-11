@@ -1,10 +1,5 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Web.Http;
-using API.Models;
-using API.Services;
 using NUnit.Framework;
 using Shouldly;
 
@@ -40,5 +35,11 @@ namespace API.Tests
             response.StatusCode.ShouldBe(HttpStatusCode.OK);
         }
 
+        [Test]
+        public async void Get_non_existing_book_returns_404_not_found()
+        {
+            var response = await Client.GetAsync("/books/0000000000");
+            response.StatusCode.ShouldBe(HttpStatusCode.NotFound);
+        }
     }
 }

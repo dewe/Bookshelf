@@ -86,7 +86,7 @@
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\BooksDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\SimpleStore.cs" />
+    <Compile Include="Services\Store.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

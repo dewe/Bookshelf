@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Web.Http;
 using API.Controllers;
 using API.Models;
@@ -49,7 +47,7 @@ namespace API.Tests
             var books = new List<Book>();
             books.AddRange(Enumerable.Repeat(new Book(), 4));
             books.Add(new Book { Isbn = "1234567890" });
-            SimpleStore<Book>.SetItems(books);
+            Store<Book>.SetItems(books);
 
             _booksController = new BooksController();
             _booksController.Request = new HttpRequestMessage();

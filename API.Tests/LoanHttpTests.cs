@@ -1,10 +1,6 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web.Http;
-using API.Models;
-using API.Services;
 using NUnit.Framework;
 using Shouldly;
 

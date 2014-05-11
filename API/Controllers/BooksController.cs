@@ -14,20 +14,27 @@ namespace API.Controllers
         {
             return new BooksDto
             {
-                Books = SimpleStore<Book>.Items()
+                Books = Store<Book>.Items()
             };
         }
 
         [Route("books/{isbn}")]
         public Book Get(string isbn)
         {
-            return SimpleStore<Book>.Items().FirstOrDefault(b => b.Isbn == isbn);
+            var book = Store<Book>.Items().FirstOrDefault(b => b.Isbn == isbn);
+
+            if (book == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
+            return book;
         }
 
         [Route("books/{isbn}/loan")]
         public HttpResponseMessage PutLoan(string isbn, [FromBody]string value)
         {
-            var book = SimpleStore<Book>.Items().FirstOrDefault(b => b.Isbn == isbn);
+            var book = Store<Book>.Items().FirstOrDefault(b => b.Isbn == isbn);
 
             book.Loaned = value;
 
