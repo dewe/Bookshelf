@@ -19,5 +19,17 @@ namespace API.Tests
 
             response.StatusCode.ShouldBe(HttpStatusCode.Created);
         }
+
+        [Test]
+        public async void Put_loan_when_not_free_returns_403_forbidden()
+        {
+            var isbn = SampleData.Books().First().Isbn;
+            var url = "/books/" + isbn + "/loan";
+            await Client.PutAsJsonAsync(url, "Borrower 1");
+            
+            var response = await Client.PutAsJsonAsync(url, "Borrower 2");
+            
+            response.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
+        }
     }
 }

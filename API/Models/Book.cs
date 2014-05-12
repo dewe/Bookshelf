@@ -6,5 +6,10 @@
         public string Author { get; set; }
         public string Isbn { get; set; }
         public string Loaned { get; set; }
+
+        public bool HasLoan()
+        {
+            return string.IsNullOrEmpty(Loaned) != true;
+        }
     }
 }

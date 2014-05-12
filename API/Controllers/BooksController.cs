@@ -22,7 +22,6 @@ namespace API.Controllers
         public Book Get(string isbn)
         {
             var book = Store<Book>.Items().FirstOrDefault(b => b.Isbn == isbn);
-
             if (book == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
@@ -34,9 +33,14 @@ namespace API.Controllers
         [Route("books/{isbn}/loan")]
         public HttpResponseMessage PutLoan(string isbn, [FromBody]string value)
         {
-            var book = Store<Book>.Items().FirstOrDefault(b => b.Isbn == isbn);
+            var book = Get(isbn);
+            if (book.HasLoan())
+            {
+                throw new HttpResponseException(HttpStatusCode.Forbidden);
+            }
 
-            book.Loaned = value;
+            // TODO: add optimistic concurrency checks
+            book.Loaned = value; 
 
             return Request.CreateResponse(HttpStatusCode.Created, book);
         }

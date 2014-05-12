@@ -35,9 +35,10 @@ namespace API.Tests
         public void Loan_free_book_assigns_borrower_to_book()
         {
             Book book;
+            
             var response = _booksController.PutLoan("1234567890", "testname");
+            
             response.TryGetContentValue(out book);
-
             book.Loaned.ShouldBe("testname");
         }
 
