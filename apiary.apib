@@ -45,7 +45,7 @@ All books on the bookshelf.
         }
 
 ## Book [/books/{isbn}]
-A single book with all details.
+A single book identified by its *ISBN-10*
 
 + Parameters
     + isbn (required, string, `0000000000`) ... This is the ID that identifies a Book in the form of ISBN-10.
@@ -76,6 +76,17 @@ Use the loan endpoint to borrow book, or return a book.
             "author": "Holy Ghost et al",
             "isbn": "0310941784 ",
             "loaned": "S:t Peter"
+        }
+
++ Response 403 (application/json)
+
+        { "message": "Book is not free." }
+
++ Response 422 (application/json)
+
+        { 
+            "message": "Validation failed",
+            "error": "Property 'borrower' must not be empty"
         }
 
 ### Return a book [DELETE]
