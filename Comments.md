@@ -32,7 +32,7 @@ to the API:
 * API versioning. Put major version number in the URL since it makes the API 
   explorable with a browser.
 * Logging and tracing.
-* Refactor tests to be more context driven (BDD-ish).
+* Refactor tests to be more context driven.
 * Authentication, at least an API-key for identification. 
 * SSL everything. Goes for any public API. Disable all non-SSL access, no 
   redirects.
