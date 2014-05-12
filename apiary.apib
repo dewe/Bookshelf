@@ -1,0 +1,94 @@
+FORMAT: 1A
+HOST: http://bshelf.apphb.com/
+
+# Bookshelf
+Bookshelf API is a sample API representing a _collection of books_, with functionality for borrowing and returning books.
+
+Templated URLs are formatted according to [RFC 6570](http://tools.ietf.org/html/rfc6570) URI templates.
+ 
+## Bookshelf API Root [/]
+Provides templated links to relevant bookshelf resources.
+
+### Retrieve Entry Point [GET]
++ Response 200 (application/json)
+
+        {
+            "api_root_url": "http://bshelf.apphb.com/",
+            "books_url": "http://bshelf.apphb.com/books{/isbn}",
+            "loan_url": "http://bshelf.apphb.com/books{/isbn}",
+            "docs_url": "http://docs.bshelf.apiary.io/",
+            "source_code_url": "TBD",
+            "design_comments_url": "TBD"
+        }
+
+## Books Collection [/books]
+All books on the bookshelf.
+
+### List all Books [GET]
++ Response 200 (application/json)
+
+        {
+            "books": [
+                {
+                "title": "Switch: How to Change Things When Change Is Hard",
+                "author": "Chip Heath, Dan Heath",
+                "isbn": "0385528752",
+                "loaned": null
+                },
+                {
+                "title": "Specification by Example: How Successful Teams Deliver the Right Software",
+                "author": "Gojko Adzic",
+                "isbn": "1617290084 ",
+                "loaned": "Johan Dewe"
+                }
+            ]
+        }
+
+## Book [/books/{isbn}]
+A single book with all details.
+
++ Parameters
+    + isbn (required, string, `0000000000`) ... This is the ID that identifies a Book in the form of ISBN-10.
+
+### Retrieve a Book [GET]
+
++ Response 200 (application/json)
+
+        {
+            "title": "Clean Code: A Handbook of Agile Software Craftsmanship",
+            "author": "Robert C. Martin",
+            "isbn": "0132350882",
+            "loaned": "Mr Developer"
+        }
+
+## Loan [/books/{isbn}/loan]
+Use the loan endpoint to borrow book, or return a book.
+
+### Borrow a book [PUT]
++ Request (application/json)
+
+        { "borrower": "S:t Peter" }
+
++ Response 201 (application/json)
+
+        {
+            "title": "Holy Bible: King James Version",
+            "author": "Holy Ghost et al",
+            "isbn": "0310941784 ",
+            "loaned": "S:t Peter"
+        }
+
+### Return a book [DELETE]
++ Response 200 (application/json)
+
+        {
+            "title": "Holy Bible: King James Version",
+            "author": "Holy Ghost et al",
+            "isbn": "0310941784 ",
+            "loaned": null
+        }
+
+### Check loan [GET]
++ Response 200 (application/json)
+
+        { "borrower": "S:t Peter" }
