@@ -99,7 +99,15 @@ Use the loan endpoint to borrow book, or return a book.
             "loaned": null
         }
 
++ Response 404 (application/json)
+
+        { "message": "There is no current loan" }
+
 ### Check loan [GET]
 + Response 200 (application/json)
 
         { "borrower": "S:t Peter" }
+
++ Response 404 (application/json)
+
+        { "message": "There is no current loan" }
