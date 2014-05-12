@@ -45,9 +45,10 @@ namespace API.Controllers
             return Request.CreateResponse(HttpStatusCode.Created, book);
         }
 
-        // DELETE books/5
-        public void Delete(int id)
+        [Route("books/{isbn}/loan")]
+        public HttpResponseMessage DeleteLoan(string isbn)
         {
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
     }
 }

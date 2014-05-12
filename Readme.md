@@ -1,7 +1,7 @@
 Bookshelf
 =========
 
-Sample API
+__Sample API__
 
-* book model: title, author, isbn and loaned
-* Functions: fetch books, load a book and return a book
+* Entry point: http://bshelf.apphb.com/
+* Documentation: http://docs.bshelf.apiary.io/

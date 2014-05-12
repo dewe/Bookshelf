@@ -31,5 +31,17 @@ namespace API.Tests
             
             response.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
         }
+
+        [Test]
+        public async void Delete_loan_returns_200()
+        {
+            var isbn = SampleData.Books().First().Isbn;
+            var url = "/books/" + isbn + "/loan";
+            await Client.PutAsJsonAsync(url, "name");
+
+            var response = await Client.DeleteAsync(url);
+
+            response.StatusCode.ShouldBe(HttpStatusCode.OK);
+        }
     }
 }
