@@ -1,12 +1,9 @@
-﻿using System.Linq;
+﻿using API.Models;
+using API.Services;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Formatting;
-using System.Web;
 using System.Web.Http;
-using API.Models;
-using API.Services;
-using Newtonsoft.Json.Linq;
 
 namespace API.Controllers
 {
@@ -17,14 +14,14 @@ namespace API.Controllers
         {
             return new BooksDto
             {
-                Books = Store<Book>.Items()
+                Books = Store.GetAllBooks()
             };
         }
 
         [Route("books/{isbn}")]
         public Book Get(string isbn)
         {
-            var book = Store<Book>.Items().FirstOrDefault(b => b.Isbn == isbn);
+            var book = Store.GetAllBooks().FirstOrDefault(b => b.Isbn == isbn);
             if (book == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
@@ -48,7 +45,8 @@ namespace API.Controllers
             }
 
             // TODO: add optimistic concurrency checks
-            book.Loaned = name; 
+            book.Loaned = name;
+            Store.Upsert(book);
 
             return Request.CreateResponse(HttpStatusCode.Created, book);
         }

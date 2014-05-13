@@ -1,24 +1,45 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using API.Models;
 
 namespace API.Services
 {
-    public static class Store<T>
+    public static class Store
     {
-        private static IEnumerable<T> _items = new List<T>();
+        private static IDictionary<string, Book> _internalStore = new Dictionary<string, Book>();
 
-        public static IEnumerable<T> Items()
+        public static IEnumerable<Book> GetAllBooks()
         {
-            return _items;
+            return _internalStore.Values.Select(ShallowCopy);
         }
 
-        public static void SetItems(IEnumerable<T> items)
+        public static void Upsert(Book book)
         {
-            _items = items;
+            // todo: check expected version
+            _internalStore[book.Isbn] = book;
+
         }
 
-        public static IEnumerator<T> GetEnumerator()
+        public static void InitializeWith(IEnumerable<Book> items)
         {
-            return _items.GetEnumerator();
+            _internalStore = items.ToDictionary(b => b.Isbn, ShallowCopy);
         }
+
+        private static Book ShallowCopy(Book book)
+        {
+            return new Book()
+            {
+                Isbn = book.Isbn,
+                Title = book.Title,
+                Author = book.Author,
+                Loaned = book.Loaned,
+                Version = book.Version
+            };
+        }
+    }
+
+    public class ConcurrencyException : Exception
+    {
     }
 }

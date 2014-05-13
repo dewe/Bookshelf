@@ -24,7 +24,7 @@ namespace API.Tests
         [SetUp]
         public void SetUp()
         {
-            Store<Book>.SetItems(SampleData.Books());
+            Store.InitializeWith(SampleData.Books());
         }
     }
 }

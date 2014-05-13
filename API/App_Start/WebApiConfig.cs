@@ -14,7 +14,7 @@ namespace API
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
-            Store<Book>.SetItems(SampleData.Books());
+            Store.InitializeWith(SampleData.Books());
 
             // JSON configuration
             var jsonFormatter = new JsonMediaTypeFormatter();
