@@ -20,12 +20,12 @@ namespace API.Controllers
         [Route("books/{isbn}")]
         public Book Get(string isbn)
         {
-            if (Store.Exist(isbn))
+            if (!Store.Exist(isbn))
             {
-                return Store.GetBook(isbn);
+                throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            throw new HttpResponseException(HttpStatusCode.NotFound);
+            return Store.GetBook(isbn);
         }
 
         [Route("books/{isbn}/loan")]
@@ -53,15 +53,16 @@ namespace API.Controllers
         public Book DeleteLoan(string isbn)
         {
             var book = Get(isbn);
+
             if (book.HasLoan() == false)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            // TODO: add optimistic concurrency checks
             book.Loaned = null; 
+            Store.Upsert(book);
 
-            return book;
+            return Get(isbn);
         }
     }
 }

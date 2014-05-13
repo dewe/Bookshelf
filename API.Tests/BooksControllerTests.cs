@@ -59,8 +59,8 @@ namespace API.Tests
             }
             catch (AggregateException exception)
             {
-                exception.InnerExceptions.Count().ShouldBe(1);
                 exception.InnerExceptions[0].ShouldBeOfType<ConcurrencyException>();
+                exception.InnerExceptions.Count().ShouldBe(1);
             }
         }
 
