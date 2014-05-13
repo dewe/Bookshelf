@@ -19,7 +19,6 @@ namespace API.Tests
         public void Get_books_returns_all_books()
         {
             var books = _booksController.Get().Books;
-
             books.Count().ShouldBe(5);
         }
 
@@ -27,7 +26,6 @@ namespace API.Tests
         public void Get_book_by_Isbn_return_single_book()
         {
             var book = _booksController.Get("1234567890");
-
             book.Isbn.ShouldBe("1234567890");
         }
 
@@ -35,11 +33,17 @@ namespace API.Tests
         public void Loan_free_book_assigns_borrower_to_book()
         {
             Book book;
-            
-            var response = _booksController.PutLoan("1234567890", "testname");
-            
+            var response = _booksController.PutLoan("1234567890", "borrowers name");
             response.TryGetContentValue(out book);
-            book.Loaned.ShouldBe("testname");
+            book.Loaned.ShouldBe("borrowers name");
+        }
+
+        [Test]
+        public void Return_book_unassign_borrower()
+        {
+            _booksController.PutLoan("1234567890", "borrowers name");
+            var book = _booksController.DeleteLoan("1234567890");
+            book.Loaned.ShouldBe(null);
         }
 
         [SetUp]

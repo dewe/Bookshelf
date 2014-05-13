@@ -7,7 +7,7 @@ namespace API.Controllers
         [Route("")]
         public object Get()
         {
-            return new 
+            return new
             {
                 api_root_url = "http://bshelf.apphb.com",
                 books_url = "http://bshelf.apphb.com/books/{isbn}",

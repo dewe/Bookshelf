@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using NUnit.Framework;
@@ -33,6 +34,17 @@ namespace API.Tests
         }
 
         [Test]
+        public async void Put_loan_with_empty_borrower_returns_422_unprocessable_entity()
+        {
+            var isbn = SampleData.Books().First().Isbn;
+            var url = "/books/" + isbn + "/loan";
+
+            var response = await Client.PutAsJsonAsync(url, String.Empty);
+
+            response.StatusCode.ShouldBe((HttpStatusCode)422);
+        }
+
+        [Test]
         public async void Delete_loan_returns_200()
         {
             var isbn = SampleData.Books().First().Isbn;
@@ -42,6 +54,17 @@ namespace API.Tests
             var response = await Client.DeleteAsync(url);
 
             response.StatusCode.ShouldBe(HttpStatusCode.OK);
+        }
+
+        [Test]
+        public async void Delete_loan_when_already_free_returns_404()
+        {
+            var isbn = SampleData.Books().First().Isbn;
+            var url = "/books/" + isbn + "/loan";
+
+            var response = await Client.DeleteAsync(url);
+
+            response.StatusCode.ShouldBe(HttpStatusCode.NotFound);
         }
     }
 }
