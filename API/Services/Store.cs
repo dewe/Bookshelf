@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using API.Models;
 
 namespace API.Services
@@ -9,6 +10,11 @@ namespace API.Services
     {
         private static IDictionary<string, Book> _internalStore = new Dictionary<string, Book>();
 
+        public static void InitializeWith(IEnumerable<Book> items)
+        {
+            _internalStore = items.ToDictionary(b => b.Isbn, ShallowCopy);
+        }
+
         public static IEnumerable<Book> GetAllBooks()
         {
             return _internalStore.Values.Select(ShallowCopy);
@@ -16,14 +22,24 @@ namespace API.Services
 
         public static void Upsert(Book book)
         {
-            // todo: check expected version
-            _internalStore[book.Isbn] = book;
+            lock (_internalStore)
+            {
+                var current = _internalStore[book.Isbn];
+                if (book.Version != current.Version)
+                {
+                    throw new ConcurrencyException();
+                }
 
+                var copy = IncreaseVersion(book);
+                _internalStore[book.Isbn] = copy;
+            }
         }
 
-        public static void InitializeWith(IEnumerable<Book> items)
+        private static Book IncreaseVersion(Book book)
         {
-            _internalStore = items.ToDictionary(b => b.Isbn, ShallowCopy);
+            var copy = ShallowCopy(book);
+            copy.Version = book.Version + 1;
+            return copy;
         }
 
         private static Book ShallowCopy(Book book)

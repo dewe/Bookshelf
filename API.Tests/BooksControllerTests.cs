@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web.Http;
 using API.Controllers;
 using API.Models;
@@ -51,16 +52,18 @@ namespace API.Tests
         [Test]
         public void Loan_concurrently_throws_exception()
         {
-            Store.InitializeWith(new[]
-            {
-                new StubBook(hasLoan: false)
-                {
-                    Isbn = "1234567890",
-                    Loaned = "borrower1"
-                }
-            });
+            var loan1 = Task.Factory.StartNew(() => _booksController.PutLoan("1234567890", "borrower1"));
+            var loan2 = Task.Factory.StartNew(() => _booksController.PutLoan("1234567890", "borrower2"));
 
-            Should.Throw<ConcurrencyException>(() => _booksController.PutLoan("1234567890", "borrowers1"));
+            try
+            {
+                Task.WaitAll(loan1, loan2);
+            }
+            catch (AggregateException exception)
+            {
+                exception.InnerExceptions.Count().ShouldBe(1);
+                exception.InnerExceptions[0].ShouldBeOfType<ConcurrencyException>();
+            }
         }
 
         [SetUp]
@@ -78,21 +81,6 @@ namespace API.Tests
             _booksController = new BooksController();
             _booksController.Request = new HttpRequestMessage();
             _booksController.Request.SetConfiguration(new HttpConfiguration());
-        }
-    }
-
-    class StubBook : Book
-    {
-        private readonly bool _hasLoan;
-
-        public StubBook(bool hasLoan)
-        {
-            _hasLoan = hasLoan;
-        }
-
-        public override bool HasLoan()
-        {
-            return _hasLoan;
         }
     }
 }

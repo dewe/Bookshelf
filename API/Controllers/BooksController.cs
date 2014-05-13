@@ -1,4 +1,6 @@
-﻿using API.Models;
+﻿using System;
+using System.Threading;
+using API.Models;
 using API.Services;
 using System.Linq;
 using System.Net;
@@ -34,6 +36,7 @@ namespace API.Controllers
         public HttpResponseMessage PutLoan(string isbn, [FromBody]string name)
         {
             var book = Get(isbn);
+
             if (book.HasLoan())
             {
                 throw new HttpResponseException(HttpStatusCode.Forbidden);
@@ -44,11 +47,10 @@ namespace API.Controllers
                 throw new HttpResponseException(new HttpResponseMessage((HttpStatusCode)422));
             }
 
-            // TODO: add optimistic concurrency checks
             book.Loaned = name;
             Store.Upsert(book);
 
-            return Request.CreateResponse(HttpStatusCode.Created, book);
+            return Request.CreateResponse(HttpStatusCode.Created, Get(isbn));
         }
 
         [Route("books/{isbn}/loan")]
