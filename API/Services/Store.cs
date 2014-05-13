@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using API.Models;
 
 namespace API.Services
@@ -18,6 +17,16 @@ namespace API.Services
         public static IEnumerable<Book> GetAllBooks()
         {
             return _internalStore.Values.Select(ShallowCopy);
+        }
+
+        public static Book GetBook(string isbn)
+        {
+            return Exist(isbn) ? ShallowCopy(_internalStore[isbn]) : null;
+        }
+
+        public static bool Exist(string isbn)
+        {
+            return _internalStore.ContainsKey(isbn);
         }
 
         public static void Upsert(Book book)

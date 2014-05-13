@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Http;
-using API.Controllers;
+﻿using API.Controllers;
 using API.Models;
 using API.Services;
 using NUnit.Framework;
 using Shouldly;
+using System;
+using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web.Http;
 
 namespace API.Tests
 {

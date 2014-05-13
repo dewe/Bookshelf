@@ -1,8 +1,5 @@
-﻿using System;
-using System.Threading;
-using API.Models;
+﻿using API.Models;
 using API.Services;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -23,13 +20,12 @@ namespace API.Controllers
         [Route("books/{isbn}")]
         public Book Get(string isbn)
         {
-            var book = Store.GetAllBooks().FirstOrDefault(b => b.Isbn == isbn);
-            if (book == null)
+            if (Store.Exist(isbn))
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                return Store.GetBook(isbn);
             }
 
-            return book;
+            throw new HttpResponseException(HttpStatusCode.NotFound);
         }
 
         [Route("books/{isbn}/loan")]

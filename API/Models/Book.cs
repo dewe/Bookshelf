@@ -12,6 +12,5 @@
         {
             return string.IsNullOrEmpty(Loaned) != true;
         }
-
     }
 }

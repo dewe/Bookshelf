@@ -1,9 +1,8 @@
+using API.Services;
+using NUnit.Framework;
 using System;
 using System.Net.Http;
 using System.Web.Http;
-using API.Models;
-using API.Services;
-using NUnit.Framework;
 
 namespace API.Tests
 {
