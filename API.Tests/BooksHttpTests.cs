@@ -12,7 +12,6 @@ namespace API.Tests
         public async void Get_books_returns_200_ok()
         {
             var response = await Client.GetAsync("/books");
-            
             response.StatusCode.ShouldBe(HttpStatusCode.OK);
         }
 
@@ -20,7 +19,6 @@ namespace API.Tests
         public async void Get_books_returns_media_type_json()
         {
             var response = await Client.GetAsync("/books");
-
             response.Content.Headers.ContentType.MediaType.ShouldBe("application/json");
         }
 
@@ -31,7 +29,6 @@ namespace API.Tests
             var url = "/books/" + isbn;
 
             var response = await Client.GetAsync(url);
-
             response.StatusCode.ShouldBe(HttpStatusCode.OK);
         }
 
