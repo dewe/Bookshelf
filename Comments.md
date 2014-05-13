@@ -18,7 +18,8 @@ If I'd continue, I would consider the following additions and adjustments to the
 * Extended protocol for borrowing books, representing each loan by it's own resource that can be updated/amended when returning the book.
 * Add links for driving HATEOAS, relieving clients from depend on deep links and documentation.
 * All endpoints need appropriate cache headers.
-* Limit amount of data through paging, preferably paging through LinkHeaders ([RFC5988](http://tools.ietf.org/html/rfc5988#page-6))
+* Checking all input for type, length, range.
+* Add paging for limiting amount of data returned. 
 * Add filtering and sorting through querystring parameters.
 * API versioning. Put major version number in the URL since it makes the API explorable with a browser.
 * Logging and tracing.
